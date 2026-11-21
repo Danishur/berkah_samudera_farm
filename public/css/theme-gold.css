@@ -1,0 +1,71 @@
+/* TEMA GELAP EMAS gaya Gen Z: latar hitam, emas, bingkai tebal, bayangan keras, label miring.
+   Dimuat setelah site.css dan pages.css. Untuk kembali ke tema hijau, hapus baris <link> file ini di layout. */
+
+:root {
+  --bg: #0a0a0c;
+  --paper: #16161a;
+  --butter: #111114;
+  --deep: #060607;
+  --ink: #c8962f;          /* warna bingkai dan bayangan keras (emas) */
+  --text: #f3eee2;
+  --muted: #a9a393;
+  --brown: #f2cf72;
+  --green: #e0b04a;        /* aksen utama: harga, penanda */
+  --sun: #e8b84a;          /* emas terang: tombol dan sorotan */
+  --gold-hi: #f6d77f;
+  --dark: #15110a;         /* teks gelap di atas emas */
+  --ok: #9ee08f;
+  --warn: #f6d77f;
+  --bad: #ff9d8a;
+  color-scheme: dark;
+}
+
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--text); }
+::selection { background: var(--sun); color: var(--dark); }
+.hero ::selection { background: var(--sun); color: var(--dark); }
+
+/* Teks gelap di atas permukaan emas */
+.btn, .badge, .tab small, .tab.on, .tile .play, .steps li::before, .compare th, .avatar, .trust { color: var(--dark); }
+nav a:hover { color: var(--dark); }
+.tab.on { background: var(--sun); }
+.tab small { background: var(--sun); }
+
+/* Tombol */
+.btn-line { background: var(--paper); color: var(--gold-hi); }
+
+/* Header dan hero */
+header { background: var(--paper); }
+.brand { color: var(--gold-hi); }
+.hero {
+  background:
+    radial-gradient(circle at 92% 8%, var(--sun) 0 84px, transparent 85px),
+    radial-gradient(circle at 4% 98%, rgba(232, 184, 74, .14) 0 150px, transparent 151px),
+    #0e0e11;
+}
+.hero p.lead { color: #d8d2c0; }
+
+/* Bagian dan kartu */
+.photo, .map { background: #1c1c20; }
+.tile { background: #1c1c20; }
+.tab:hover { background: #22222a; }
+
+/* Kotak ajakan: gelap, bingkai emas, bayangan emas */
+.cta-box { background: var(--paper); color: var(--text); box-shadow: 8px 8px 0 var(--sun); }
+.cta-box p { color: #d8d2c0; }
+
+/* Formulir filter dan pratinjau galeri */
+.filter input, .filter select { background: var(--paper); color: var(--text); }
+.filter ::placeholder { color: #7f7a6b; }
+.filter input:focus, .filter select:focus { outline: none; border-color: var(--sun); }
+#lb { color: var(--text); }
+#lbtext b { color: #fff; }
+
+/* Footer dan tombol WhatsApp mengambang */
+footer { color: var(--muted); }
+.fab { background: #1fa85a; }
+
+/* Loading screen */
+#loader { background: radial-gradient(circle at 50% 40%, #1c1709, #0a0a0c 70%); color: var(--gold-hi); }
+.load-text { color: var(--muted); }
+.bar-load { background: #1b1b1f; }
