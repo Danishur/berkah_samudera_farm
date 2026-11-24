@@ -147,3 +147,24 @@ table.compare { width: 100%; border-collapse: collapse; min-width: 680px; }
   .f-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .f-more > .btn { display: inline-flex; width: auto; }
 }
+/* Halaman detail kambing: foto utama, foto kecil, dan video */
+.detail > * { min-width: 0; }
+.detail .media { display: grid; gap: 14px; align-content: start; }
+.detail .photo.main { aspect-ratio: 1 / 1; max-height: 72vh; background: #0e0e11; }
+.detail .photo.main button { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.detail .photo.main img { width: 100%; height: 100%; object-fit: contain; }
+.detail .photo .badge { z-index: 2; pointer-events: none; }
+
+.thumbs { display: flex; gap: 10px; overflow-x: auto; padding: 4px 4px 10px; scrollbar-width: thin; }
+.thumb { flex: none; width: 72px; height: 72px; padding: 0; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; background: #1c1c20; opacity: .7; cursor: pointer; }
+.thumb.on { opacity: 1; border-color: var(--sun); box-shadow: 3px 3px 0 var(--sun); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.detail video { display: block; width: 100%; max-height: 72vh; margin: 0; border: 2px solid var(--ink); border-radius: 18px; background: #000; }
+
+.lbprev, .lbnext { position: absolute; top: 40%; z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--ink); background: var(--sun); color: #15110a; font-size: 1.2rem; font-weight: 800; cursor: pointer; }
+.lbprev { left: 10px; }
+.lbnext { right: 10px; }
+
+@media (min-width: 860px) { .detail .photo.main { aspect-ratio: 4 / 3; } }
+@media (max-width: 420px) { .thumb { width: 64px; height: 64px; } }
