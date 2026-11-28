@@ -59,6 +59,10 @@ class AppServiceProvider extends ServiceProvider
                 . rawurlencode('Halo Berkah Samudera Farm, saya ingin bertanya tentang kambing Boer.');
         }
 
+        $site['maintenance']         = (bool) ($s['maintenance_mode'] ?? true);
+        $site['maintenance_message'] = $s['maintenance_message'] ?? null;
+        $site['maintenance_eta']     = $s['maintenance_eta'] ?? null;
+
         config(['site' => $site]);
     }
 }

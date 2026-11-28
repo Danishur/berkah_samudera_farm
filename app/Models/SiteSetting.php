@@ -11,6 +11,11 @@ class SiteSetting extends Model
         'hero_title', 'hero_lead', 'wa_number', 'address', 'maps_url',
         'instagram_url', 'tiktok_url', 'facebook_url',
         'about_1', 'about_2', 'shipping_info',
+        'maintenance_mode', 'maintenance_message', 'maintenance_eta',
+    ];
+
+    protected $casts = [
+        'maintenance_mode' => 'boolean',
     ];
 
     protected static function booted(): void
@@ -31,6 +36,7 @@ class SiteSetting extends Model
             'about_1'       => config('site.about_1'),
             'about_2'       => config('site.about_2'),
             'shipping_info' => config('site.shipping'),
+            'maintenance_mode' => (bool) config('site.maintenance', true),
         ]);
     }
 

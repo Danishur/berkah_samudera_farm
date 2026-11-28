@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\PageView;
+use App\Services\GeoLookup;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,7 @@ class TrackVisit
 
             $agent = (string) $request->userAgent();
             $today = now()->toDateString();
+            $geo   = GeoLookup::locate($request->ip()) ?? [];
 
             PageView::create([
                 'visited_on' => $today,
@@ -34,6 +36,10 @@ class TrackVisit
                 'ip_hash'    => hash('sha256', $request->ip() . '|' . $agent . '|' . $today . '|' . config('app.key')),
                 'device'     => $this->device($agent),
                 'referrer'   => $this->referrer($request),
+                'country_code' => $geo['country_code'] ?? null,
+                'country'    => $geo['country'] ?? null,
+                'region'     => $geo['region'] ?? null,
+                'city'       => $geo['city'] ?? null,
                 'created_at' => now(),
             ]);
         } catch (\Throwable $e) {

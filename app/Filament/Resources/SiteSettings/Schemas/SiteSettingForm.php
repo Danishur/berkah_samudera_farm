@@ -4,6 +4,7 @@ namespace App\Filament\Resources\SiteSettings\Schemas;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -12,6 +13,28 @@ class SiteSettingForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
+            Section::make('Mode perawatan')
+                ->description('Tutup website sementara, misalnya saat data kambing belum lengkap.')
+                ->schema([
+                    Toggle::make('maintenance_mode')
+                        ->label('Tutup website untuk pengunjung (mode perawatan)')
+                        ->helperText('Nyala: pengunjung hanya melihat halaman "sedang dalam perawatan". Anda yang sedang login tetap bisa melihat web seperti biasa. Matikan setelah data siap untuk membuka website.')
+                        ->default(true)
+                        ->columnSpanFull(),
+                    Textarea::make('maintenance_message')
+                        ->label('Pesan untuk pengunjung (boleh kosong)')
+                        ->helperText('Kosongkan untuk memakai kalimat bawaan.')
+                        ->rows(3)
+                        ->maxLength(400)
+                        ->columnSpanFull(),
+                    TextInput::make('maintenance_eta')
+                        ->label('Perkiraan dibuka kembali (boleh kosong)')
+                        ->placeholder('Contoh: awal Desember 2026')
+                        ->maxLength(100),
+                ])
+                ->columns(2)
+                ->columnSpanFull(),
+
             Section::make('Banner beranda')
                 ->description('Tulisan besar di bagian paling atas web.')
                 ->schema([

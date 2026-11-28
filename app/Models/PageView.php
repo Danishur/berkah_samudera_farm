@@ -10,7 +10,7 @@ class PageView extends Model
 {
     public $timestamps = false;
 
-    protected $fillable = ['visited_on', 'path', 'ip_hash', 'device', 'referrer', 'created_at'];
+    protected $fillable = ['visited_on', 'path', 'ip_hash', 'device', 'referrer', 'country_code', 'country', 'region', 'city', 'created_at'];
 
     protected $casts = [
         'visited_on' => 'date',
@@ -102,5 +102,35 @@ class PageView extends Model
             ->selectRaw('device, COUNT(*) as total')
             ->groupBy('device')
             ->get();
+    }
+
+    /** Jumlah kunjungan per kolom lokasi (city, region, atau country_code). */
+    public static function locationCounts(string $column, int $days, int $limit = 10, ?string $onlyCountry = null): Collection
+    {
+        abort_unless(in_array($column, ['city', 'region', 'country_code'], true), 500);
+
+        return static::query()
+            ->where('visited_on', '>=', today()->subDays($days - 1)->toDateString())
+            ->whereNotNull($column)
+            ->when($onlyCountry, fn ($q) => $q->where('country_code', $onlyCountry))
+            ->selectRaw($column . ' as label, MAX(country) as country_name, COUNT(DISTINCT visited_on, ip_hash) as total')
+            ->groupBy($column)
+            ->orderByDesc('total')
+            ->limit($limit)
+            ->get();
+    }
+
+    /** @return array{known:int, abroad:int, unknown:int} */
+    public static function locationSummary(int $days): array
+    {
+        $base = fn () => static::query()->where('visited_on', '>=', today()->subDays($days - 1)->toDateString());
+
+        $count = fn ($q) => (int) $q->selectRaw('COUNT(DISTINCT visited_on, ip_hash) as total')->value('total');
+
+        return [
+            'known'   => $count($base()->whereNotNull('country_code')),
+            'abroad'  => $count($base()->whereNotNull('country_code')->where('country_code', '!=', 'ID')),
+            'unknown' => $count($base()->whereNull('country_code')),
+        ];
     }
 }
